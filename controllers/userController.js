@@ -127,3 +127,21 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ success: false, message: 'Terjadi kesalahan', error: error.message });
   }
 };
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Pengguna tidak ditemukan' });
+    }
+
+    // Reset password to default
+    user.password = 'password123';
+    await user.save();
+
+    res.json({ success: true, message: 'Password berhasil direset ke default (password123)' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Terjadi kesalahan', error: error.message });
+  }
+};

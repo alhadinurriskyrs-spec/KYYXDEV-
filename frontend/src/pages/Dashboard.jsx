@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import axios from 'axios'
+import axios from '../lib/api'
 import { 
   Users, CalendarCheck, ClipboardList, Award, TrendingUp, Clock,
   CheckCircle, AlertCircle, Bell, ArrowRight, Calendar
@@ -25,10 +25,10 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       if (user?.role === 'pramubakti') {
-        const res = await axios.get('/api/dashboard/my-dashboard')
+        const res = await axios.get('/dashboard/my-dashboard')
         setMyData(res.data.data)
       } else {
-        const res = await axios.get('/api/dashboard/stats')
+        const res = await axios.get('/dashboard/stats')
         setStats(res.data.data)
       }
     } catch (err) {

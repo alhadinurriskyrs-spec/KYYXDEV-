@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { User, Mail, Phone, MapPin, Calendar, Building2, Shield, Camera, Save } from 'lucide-react'
@@ -28,7 +28,7 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('/api/auth/profile')
+      const res = await axios.get('/auth/profile')
       const userData = res.data.data
       setForm({
         name: userData.name || userData.pramubakti?.nama || '',
@@ -48,7 +48,7 @@ export default function ProfilePage() {
     e.preventDefault()
     setSaving(true)
     try {
-      const res = await axios.put('/api/auth/profile', form)
+      const res = await axios.put('/auth/profile', form)
       updateUser(res.data.data)
       toast.success('Profil berhasil diperbarui')
     } catch (err) {
@@ -70,7 +70,7 @@ export default function ProfilePage() {
     }
     setSaving(true)
     try {
-      await axios.post('/api/auth/change-password', {
+      await axios.post('/auth/change-password', {
         current_password: password.current,
         password: password.baru,
         password_confirmation: password.konfirmasi

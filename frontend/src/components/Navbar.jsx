@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import axios from 'axios'
+import axios from '../lib/api'
 import { Menu, Search, Bell, Moon, Sun, User, LogOut, Settings, ChevronDown } from 'lucide-react'
 
 export default function Navbar({ onMenuClick, darkMode, toggleDarkMode }) {
@@ -21,7 +21,7 @@ export default function Navbar({ onMenuClick, darkMode, toggleDarkMode }) {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get('/api/notifications?limit=5')
+      const res = await api.get('/notifications?limit=5')
       setNotifications(res.data.data || [])
       setUnreadCount(res.data.unread || 0)
     } catch (err) {

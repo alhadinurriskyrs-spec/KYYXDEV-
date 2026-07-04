@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useToast } from '../context/ToastContext'
 import { Settings as SettingsIcon, Building2, Database, Bell, Shield, Save, RefreshCw } from 'lucide-react'
 
@@ -38,7 +38,7 @@ export default function SettingsPage() {
   const fetchSettings = async () => {
     setLoading(true)
     try {
-      const res = await axios.get('/api/settings')
+      const res = await axios.get('/settings')
       const data = res.data.data || {}
       setGeneral(prev => ({ ...prev, ...data.general || {} }))
       setAttendance(prev => ({ ...prev, ...data.attendance || {} }))
@@ -53,7 +53,7 @@ export default function SettingsPage() {
   const handleSave = async (type) => {
     setSaving(true)
     try {
-      await axios.put('/api/settings', {
+      await axios.put('/settings', {
         type,
         [type === 'umum' ? 'general' : type === 'attendance' ? 'attendance' : 'notification']: 
           type === 'umum' ? general : type === 'attendance' ? attendance : notification
@@ -69,7 +69,7 @@ export default function SettingsPage() {
   const handleReset = async () => {
     if (!confirm('Reset semua pengaturan ke default?')) return
     try {
-      await axios.post('/api/settings/reset')
+      await axios.post('/settings/reset')
       toast.success('Pengaturan berhasil direset')
       fetchSettings()
     } catch (err) {

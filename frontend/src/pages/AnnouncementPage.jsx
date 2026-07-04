@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { Bell, Plus, Edit, Trash2, Pin, ChevronLeft, ChevronRight, Calendar, X } from 'lucide-react'
@@ -55,7 +55,7 @@ export default function AnnouncementPage() {
         await axios.put(`/api/announcements/${editData.id}`, form)
         toast.success('Pengumuman berhasil diperbarui')
       } else {
-        await axios.post('/api/announcements', form)
+        await axios.post('/announcements', form)
         toast.success('Pengumuman berhasil dibuat')
       }
       setShowModal(false)

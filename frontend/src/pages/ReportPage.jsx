@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { FileText, Download, Printer, Users, CalendarCheck, ClipboardList, Award } from 'lucide-react'
@@ -19,7 +19,7 @@ export default function ReportPage() {
 
   const fetchPramubaktis = async () => {
     try {
-      const res = await axios.get('/api/pramubakti?limit=100')
+      const res = await axios.get('/pramubakti?limit=100')
       setPramubaktis(res.data.data || [])
     } catch (err) { console.error(err) }
   }

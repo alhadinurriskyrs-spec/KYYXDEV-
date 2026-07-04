@@ -240,3 +240,53 @@ exports.forgotPassword = async (req, res) => {
     });
   }
 };
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { name, email, nomor_hp, alamat } = req.body;
+    
+    const user = await User.findByPk(req.user.id, {
+      include: [{ model: Pramubakti, as: 'pramubakti' }]
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'Pengguna tidak ditemukan'
+      });
+    }
+
+    // Update user
+    if (name) user.name = name;
+    if (email && email !== user.email) {
+      const existing = await User.findOne({ where: { email } });
+      if (existing) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email sudah digunakan'
+        });
+      }
+      user.email = email;
+    }
+    await user.save();
+
+    // Update pramubakti if exists
+    if (user.pramubakti) {
+      if (nomor_hp) user.pramubakti.nomor_hp = nomor_hp;
+      if (alamat) user.pramubakti.alamat = alamat;
+      await user.pramubakti.save();
+    }
+
+    res.json({
+      success: true,
+      message: 'Profil berhasil diperbarui',
+      data: user.toJSON()
+    });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Terjadi kesalahan saat memperbarui profil'
+    });
+  }
+};

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { Search, Plus, Edit, Trash2, Upload, CheckCircle, Clock, AlertCircle, Filter, ChevronLeft, ChevronRight, Calendar } from 'lucide-react'
@@ -51,7 +51,7 @@ export default function TaskPage() {
 
   const fetchPramubaktis = async () => {
     try {
-      const res = await axios.get('/api/pramubakti?limit=100')
+      const res = await axios.get('/pramubakti?limit=100')
       setPramubaktis(res.data.data || [])
     } catch (err) {
       console.error('Failed to fetch pramubaktis')
@@ -85,7 +85,7 @@ export default function TaskPage() {
         await axios.put(`/api/tasks/${editData.id}`, form)
         toast.success('Tugas berhasil diperbarui')
       } else {
-        await axios.post('/api/tasks', form)
+        await axios.post('/tasks', form)
         toast.success('Tugas berhasil dibuat')
       }
       setShowModal(false)

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useToast } from '../context/ToastContext'
 import { Search, Plus, Edit, Trash2, Eye, ChevronLeft, ChevronRight, User, Filter } from 'lucide-react'
 
@@ -54,7 +54,7 @@ export default function PramubaktiPage() {
         await axios.put(`/api/pramubakti/${editData.id}`, form)
         toast.success('Data berhasil diperbarui')
       } else {
-        await axios.post('/api/pramubakti', form)
+        await axios.post('/pramubakti', form)
         toast.success('Data berhasil ditambahkan')
       }
       setShowModal(false)

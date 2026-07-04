@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../lib/api'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { Calendar, Clock, MapPin, CheckCircle, Camera, ChevronLeft, ChevronRight, Download, Filter, FileText } from 'lucide-react'
@@ -36,14 +36,14 @@ export default function AttendancePage() {
 
   const fetchPramubaktis = async () => {
     try {
-      const res = await axios.get('/api/pramubakti?limit=100')
+      const res = await axios.get('/pramubakti?limit=100')
       setPramubaktis(res.data.data || [])
     } catch (err) { console.error(err) }
   }
 
   const fetchTodayAttendance = async () => {
     try {
-      const res = await axios.get('/api/attendance/today')
+      const res = await axios.get('/attendance/today')
       setTodayAttendance(res.data.data || [])
     } catch (err) { console.error(err) }
   }
@@ -83,7 +83,7 @@ export default function AttendancePage() {
     }
     setClockInLoading(true)
     try {
-      const res = await axios.post('/api/attendance/clock-in', {
+      const res = await axios.post('/attendance/clock-in', {
         pramubakti_id: pramubaktiId,
         jam_masuk: new Date().toTimeString().split(' ')[0].substring(0, 8),
         lokasi_masuk: 'Kantor BPS'
@@ -100,7 +100,7 @@ export default function AttendancePage() {
   const handleClockOut = async () => {
     setClockOutLoading(true)
     try {
-      const res = await axios.post('/api/attendance/clock-out', {
+      const res = await axios.post('/attendance/clock-out', {
         pramubakti_id: pramubaktiId,
         jam_pulang: new Date().toTimeString().split(' ')[0].substring(0, 8),
         lokasi_pulang: 'Kantor BPS'

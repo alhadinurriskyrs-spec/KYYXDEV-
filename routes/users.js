@@ -10,6 +10,7 @@ router.get('/:id', userController.getUserById);
 router.post('/', roleMiddleware('admin'), userController.createUser);
 router.put('/:id', roleMiddleware('admin'), userController.updateUser);
 router.delete('/:id', roleMiddleware('admin'), userController.deleteUser);
+router.post('/:id/reset-password', roleMiddleware('admin'), userController.resetPassword);
 router.put('/profile/update', userController.updateProfile);
 
 module.exports = router;
